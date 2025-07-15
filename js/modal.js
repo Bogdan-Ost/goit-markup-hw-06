@@ -1,18 +1,32 @@
-(() => {
-  const refs = {
-    // Додати атрибут data-modal-open на кнопку відкриття
-    openModalBtn: document.querySelector("[data-modal-open]"),
-    // Додати атрибут data-modal-close на кнопку закриття
-    closeModalBtn: document.querySelector("[data-modal-close]"),
-    // Додати атрибут data-modal на бекдроп модалки
-    modal: document.querySelector("[data-modal]"),
-  };
+//Создаем переменную, в которую сохраняем наше модальное окно
+var modal = $(".mymodal");
 
-  refs.openModalBtn.addEventListener("click", toggleModal);
-  refs.closeModalBtn.addEventListener("click", toggleModal);
+//Функция устанавливает значение свойства display в то, которое указано в ее параметрах при вызове
+function setModal(display) {
+  modal.css("display", display);
+}
 
-  function toggleModal() {
-    // is-open це клас який буде додаватися/забиратися на бекдроп при натисканні на кнопки
-    refs.modal.classList.toggle("is-open");
+//Функция обрабатывает клик по кнопке "Оставить заявку"
+$(".herobaner-button").click(function () {
+  setModal("block");
+});
+
+//Функция обрабатывает клик по кнопке "Закрыть"
+$(".modal-close-button").click(function () {
+  setModal("none");
+});
+
+//Функция обрабатывает клики по модальному окну, и, если клик не произошел не по блоку content и не по его дочерним элементам, то закрываем модальное окно
+$(modal).click(function (e) {
+  var target = e.target;
+  if (!$(".modal").is(target) && $(".modal").has(target).length === 0) {
+    setModal("none");
   }
-})();
+});
+
+//Если нажата клавиша ESC, то закрываем модальное окно
+$(document).keydown(function (e) {
+  if (e.which == 27) {
+    setModal("none");
+  }
+});
